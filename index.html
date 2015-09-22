@@ -1,75 +1,122 @@
 <!doctype html>
-<html ng-app="studentRoster">
+<html ng-app="survey">
 <head>
-  <title>Student App</title>
+  <title>90's survey</title>
   <script src="lib/angular.js"></script>
   <script src="app.js"></script>
-  <script src="services/StudentsFactory.js"></script>
-  <script src="controllers/StudentsController.js"></script>
-  <script src="controllers/FieldTripsController.js"></script>
+  <script src="services/SurveyFactory.js"></script>
+  <script src="controllers/AnswerController.js"></script>
+  <script src="controllers/ResponseController.js"></script>
   <link rel="stylesheet" href="css/bootstrap.min.css">
 </head>
 <body>
   <div class="container">
-    <div  ng-controller="StudentsCtrl">
-      <div class="row" ng-show="students.length">
-        <div class="col-md-12">
-          <h4>Search Students</h4>
-          <form class="form-inline" role="form">
-            <div class="form-group">
-              <input ng-model="query" type="text" class="form-control"
-              id="student-name" placeholder="Search">
-            </div>
-          </form>
+    <div class="row" ng-controller="AnswerCtrl">
+      <h2>90's Survey</h2>
+      <form ng-hide="submit" ng-submit="SurveyFactory.addAnswer()" class="form-inline" role="form">
+        <div class="form-group">
+          <label for="name">Favorite 90's show</label>
+          <input name="show" type="text" ng-model="SurveyFactory.show"
+          class="form-control"
+          id="show" placeholder="Enter show">
         </div>
-      </div>
-      <div class="row">
-        <div class="col-md-6">
-          <h2 ng-show="students.length && filtered.length">Student List</h2>
-          <h2 ng-show="students.length && !filtered.length">No Matches</h2>
-          <ul>
-            <li ng-repeat="item in filtered = (students | filter:query)">
-              <span ng-click="editing = true" ng-hide="editing">
-                {{item.name}} <a ng-click="StudentsFactory.deleteStudent(item)">Delete</a>
-              </span>
-              <span class="form-group" ng-show="editing" ng-submit="editing = false">
-                <form class="form-inline" role="form">
-                  <input type="text" class="form-control input-sm" ng-model="item.name" placeholder="Name" required/>
-                  <button class="btn btn-default btn-sm" type="submit">Save</button>
-                </form>
-              </span>
-            </li>
-          </ul>
+        <div class="form-group">
+          <label for="name">90's crush</label>
+          <input type="text" ng-model="SurveyFactory.crush" class="form-control"
+          id="crush" placeholder="Enter crush">
         </div>
-        <div class="col-md-6">
-          <h2>New Student</h2>
-          <form ng-submit="StudentsFactory.addStudent()" class="form-inline" role="form">
-            <div class="form-group">
-              <input type="text" ng-model="StudentsFactory.studentName" class="form-control" id="student-name" placeholder="Enter name">
-            </div>
-            <button type="submit" class="btn btn-default">Submit</button>
-          </form>
-        </div>
+        <button ng-click="submit = true"  type="submit" class="btn btn-default">Submit</button>
+      </form>
+      <div ng-show="submit">
+        <h3>Thank you!</h3>
+        <a ng-click="submit = false">Home</a>
       </div>
     </div>
-    <div class="row" ng-controller="FieldTripsCtrl">
-      <div class="col-md-6" ng-show="studentsWithoutPermission.length">
-        <h3>Without Permission Slips</h3>
-        <ul>
-          <li ng-repeat="item in studentsWithoutPermission = (students | filter:{permissionSlip: false})">
-            {{item.name}} <a ng-click="addStudentWithPermissionSlip(item)"> - received permission slip -</a>
-          </li>
-        </ul>
-      </div>
-      <div class="col-md-6" ng-show="studentsWithPermission.length">
-        <h3>With Permission Slips</h3>
-        <ul>
-          <li ng-repeat="item in studentsWithPermission = (students | filter:{permissionSlip: true})">
-            {{item.name}}
-          </li>
-        </ul>
+    <br>
+    <div class="row" ng-controller="ResponseCtrl">
+      <button ng-show="answers.length > 4" class="btn btn-default" ng-click="results = !results ">Results</button>
+      <div ng-show="results">
+        <div class="col-sm-6">
+          <h3>90's Crush</h3>
+          <ul >
+            <li ng-repeat="item in answers">{{item.crush}}</li>
+          </ul>
+        </div>
+        <div class="col-sm-6">
+          <h3>90's favorite show</h3>
+          <ul>
+            <li ng-repeat="item in answers">{{item.show}}</li>
+          </ul>
+        </div>
       </div>
     </div>
   </div>
 </body>
 </html>
+
+
+
+
+<!-- <div class="container">
+<div  ng-controller="StudentsCtrl">
+<div class="row" ng-show="students.length">
+<div class="col-md-12">
+<h4>Search Students</h4>
+<form class="form-inline" role="form">
+<div class="form-group">
+<input ng-model="query" type="text" class="form-control"
+id="student-name" placeholder="Search">
+</div>
+</form>
+</div>
+</div>
+<div class="row">
+<div class="col-md-6">
+<h2 ng-show="students.length && filtered.length">Student List</h2>
+<h2 ng-show="students.length && !filtered.length">No Matches</h2>
+<ul>
+<li ng-repeat="item in filtered = (students | filter:query)">
+<span ng-click="editing = true" ng-hide="editing">
+{{item.name}} <a ng-click="StudentsFactory.deleteStudent(item)">Delete</a>
+</span>
+<span class="form-group" ng-show="editing" ng-submit="editing = false">
+<form class="form-inline" role="form">
+<input type="text" class="form-control input-sm" ng-model="item.name" placeholder="Name" required/>
+<button class="btn btn-default btn-sm" type="submit">Save</button>
+</form>
+</span>
+</li>
+</ul>
+</div>
+<div class="col-md-6">
+<h2>New Student</h2>
+<form ng-submit="StudentsFactory.addStudent()" class="form-inline" role="form">
+<div class="form-group">
+<input type="text" ng-model="StudentsFactory.studentName" class="form-control" id="student-name" placeholder="Enter name">
+</div>
+<button type="submit" class="btn btn-default">Submit</button>
+</form>
+</div>
+</div>
+</div>
+<div class="row" ng-controller="FieldTripsCtrl">
+<div class="col-md-6" ng-show="studentsWithoutPermission.length">
+<h3>Without Permission Slips</h3>
+<ul>
+<li ng-repeat="item in studentsWithoutPermission = (students | filter:{permissionSlip: false})">
+{{item.name}} <a ng-click="addStudentWithPermissionSlip(item)"> - received permission slip -</a>
+</li>
+</ul>
+</div>
+<div class="col-md-6" ng-show="studentsWithPermission.length">
+<h3>With Permission Slips</h3>
+<ul>
+<li ng-repeat="item in studentsWithPermission = (students | filter:{permissionSlip: true})">
+{{item.name}}
+</li>
+</ul>
+</div>
+</div>
+</div>
+</body>
+</html> -->
