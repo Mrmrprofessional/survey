@@ -1,20 +1,20 @@
-# Boring Student Roster
+# 90's Survey
 
-#### By Dillon Lloyd Lee & Mike Rapp
+#### By Tyler Deem & Mike Rapp
 
-a program for adding, searching, and deleting students!
+A survey using Angular
 
-began: 09/21/2015
+began: 09/22/2015
 
 
 ### Description:
 
-It's an early effort in using Angular.
+App allows users to answer questinons pertaining to their favorite 90's tv show and crush.
 
 
 ### Setup:
 
-* _Clone directory from "https://github.com/DillonLloydLee/Student_Roster.git"_
+* _Clone directory from "https://github.com/mrmrprofessional/survey.git"_
 * _Open the index.html file._
 * _That's it!  Run this program from the page and follow onscreen directions._
 
@@ -27,7 +27,7 @@ Angular, JavaScript, jQuery, HTML, CSS, Mocha, Chai.
 ### Legal:
 
 
-Copyright (c) 2015 Dillon Lloyd Lee & Mike Rapp
+Copyright (c) 2015 Tyler Deem & Mike Rapp
 
 This software is licensed under the MIT license.
 
